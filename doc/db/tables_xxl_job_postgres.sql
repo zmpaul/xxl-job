@@ -15,123 +15,12 @@
  Date: 15/10/2021 16:56:35
 */
 
-
--- ----------------------------
--- Sequence structure for xxl_job_group_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."xxl_job_group_id_seq";
-CREATE SEQUENCE "public"."xxl_job_group_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for xxl_job_info_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."xxl_job_info_id_seq";
-CREATE SEQUENCE "public"."xxl_job_info_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for xxl_job_log_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."xxl_job_log_id_seq";
-CREATE SEQUENCE "public"."xxl_job_log_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for xxl_job_log_report_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."xxl_job_log_report_id_seq";
-CREATE SEQUENCE "public"."xxl_job_log_report_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for xxl_job_logglue_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."xxl_job_logglue_id_seq";
-CREATE SEQUENCE "public"."xxl_job_logglue_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for xxl_job_logglue_id_seq1
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."xxl_job_logglue_id_seq1";
-CREATE SEQUENCE "public"."xxl_job_logglue_id_seq1" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for xxl_job_registry_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."xxl_job_registry_id_seq";
-CREATE SEQUENCE "public"."xxl_job_registry_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for xxl_job_registry_id_seq1
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."xxl_job_registry_id_seq1";
-CREATE SEQUENCE "public"."xxl_job_registry_id_seq1" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for xxl_job_user_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."xxl_job_user_id_seq";
-CREATE SEQUENCE "public"."xxl_job_user_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for xxl_job_user_id_seq1
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."xxl_job_user_id_seq1";
-CREATE SEQUENCE "public"."xxl_job_user_id_seq1" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
-
 -- ----------------------------
 -- Table structure for xxl_job_group
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."xxl_job_group";
 CREATE TABLE "public"."xxl_job_group" (
-  "id" int4 NOT NULL DEFAULT nextval('xxl_job_group_id_seq'::regclass),
+  "id" serial4 primary key ,
   "app_name" varchar(64) COLLATE "pg_catalog"."default" NOT NULL,
   "title" varchar(12) COLLATE "pg_catalog"."default" NOT NULL,
   "address_type" int2 NOT NULL DEFAULT 0,
@@ -150,7 +39,7 @@ COMMENT ON TABLE "public"."xxl_job_group" IS '执行器信息表，维护任务�
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."xxl_job_info";
 CREATE TABLE "public"."xxl_job_info" (
-  "id" int4 NOT NULL DEFAULT nextval('xxl_job_info_id_seq'::regclass),
+  "id" serial4 primary key,
   "job_group" int4 NOT NULL DEFAULT 0,
   "job_desc" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "add_time" timestamp(6),
@@ -213,7 +102,7 @@ COMMENT ON COLUMN "public"."xxl_job_lock"."lock_name" IS '锁名称';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."xxl_job_log";
 CREATE TABLE "public"."xxl_job_log" (
-  "id" int8 NOT NULL DEFAULT nextval('xxl_job_log_id_seq'::regclass),
+  "id" serial8 primary key,
   "job_group" int4 NOT NULL DEFAULT 0,
   "job_id" int4 NOT NULL DEFAULT 0,
   "executor_address" varchar(255) COLLATE "pg_catalog"."default",
@@ -251,7 +140,7 @@ COMMENT ON TABLE "public"."xxl_job_log" IS '日志表：用于保存xxl-job任�
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."xxl_job_log_report";
 CREATE TABLE "public"."xxl_job_log_report" (
-  "id" int4 NOT NULL DEFAULT nextval('xxl_job_log_report_id_seq'::regclass),
+  "id" serial4 primary key,
   "trigger_day" timestamp(6),
   "running_count" int4 NOT NULL DEFAULT 0,
   "suc_count" int4 NOT NULL DEFAULT 0,
@@ -270,13 +159,13 @@ COMMENT ON TABLE "public"."xxl_job_log_report" IS '日志报表：用于存储jo
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."xxl_job_logglue";
 CREATE TABLE "public"."xxl_job_logglue" (
+  "id" serial4 primary key,
   "job_id" int4 NOT NULL DEFAULT 0,
   "glue_type" varchar(50) COLLATE "pg_catalog"."default",
   "glue_source" text COLLATE "pg_catalog"."default",
   "glue_remark" varchar(128) COLLATE "pg_catalog"."default" NOT NULL,
   "add_time" timestamp(6),
-  "update_time" timestamp(6),
-  "id" int4 NOT NULL DEFAULT nextval('xxl_job_logglue_id_seq1'::regclass)
+  "update_time" timestamp(6)
 )
 ;
 COMMENT ON COLUMN "public"."xxl_job_logglue"."job_id" IS '任务，主键ID';
@@ -290,11 +179,11 @@ COMMENT ON TABLE "public"."xxl_job_logglue" IS '任务GLUE日志，用于保存G
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."xxl_job_registry";
 CREATE TABLE "public"."xxl_job_registry" (
+  "id" serial4 primary key,
   "registry_group" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "registry_key" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "registry_value" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "update_time" timestamp(6),
-  "id" int4 NOT NULL DEFAULT nextval('xxl_job_registry_id_seq1'::regclass)
+  "update_time" timestamp(6)
 )
 ;
 COMMENT ON TABLE "public"."xxl_job_registry" IS '执行器注册表，维护在线的执行器和调度中心机器地址信息';
@@ -304,11 +193,11 @@ COMMENT ON TABLE "public"."xxl_job_registry" IS '执行器注册表，维护在�
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."xxl_job_user";
 CREATE TABLE "public"."xxl_job_user" (
+  "id" serial4 primary key,
   "username" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "password" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "role" int2 NOT NULL DEFAULT 0,
-  "permission" varchar(255) COLLATE "pg_catalog"."default",
-  "id" int4 NOT NULL DEFAULT nextval('xxl_job_user_id_seq1'::regclass)
+  "permission" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 COMMENT ON COLUMN "public"."xxl_job_user"."username" IS '账号';
@@ -317,89 +206,38 @@ COMMENT ON COLUMN "public"."xxl_job_user"."role" IS '角色：0-普通用户、1
 COMMENT ON COLUMN "public"."xxl_job_user"."permission" IS '权限：执行器ID列表，多个逗号分割';
 
 -- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."xxl_job_group_id_seq"', 3, false);
-SELECT setval('"public"."xxl_job_info_id_seq"', 4, true);
-SELECT setval('"public"."xxl_job_log_id_seq"', 28, true);
-SELECT setval('"public"."xxl_job_log_report_id_seq"', 12, true);
-SELECT setval('"public"."xxl_job_logglue_id_seq"', 3, false);
-ALTER SEQUENCE "public"."xxl_job_logglue_id_seq1"
-OWNED BY "public"."xxl_job_logglue"."id";
-SELECT setval('"public"."xxl_job_logglue_id_seq1"', 2, false);
-SELECT setval('"public"."xxl_job_registry_id_seq"', 3, false);
-ALTER SEQUENCE "public"."xxl_job_registry_id_seq1"
-OWNED BY "public"."xxl_job_registry"."id";
-SELECT setval('"public"."xxl_job_registry_id_seq1"', 4, true);
-SELECT setval('"public"."xxl_job_user_id_seq"', 3, false);
-ALTER SEQUENCE "public"."xxl_job_user_id_seq1"
-OWNED BY "public"."xxl_job_user"."id";
-SELECT setval('"public"."xxl_job_user_id_seq1"', 2, true);
-
--- ----------------------------
--- Primary Key structure for table xxl_job_group
--- ----------------------------
-ALTER TABLE "public"."xxl_job_group" ADD CONSTRAINT "xxl_job_group_pkey" PRIMARY KEY ("id");
-
--- ----------------------------
--- Primary Key structure for table xxl_job_info
--- ----------------------------
-ALTER TABLE "public"."xxl_job_info" ADD CONSTRAINT "xxl_job_info_pkey" PRIMARY KEY ("id");
-
--- ----------------------------
--- Primary Key structure for table xxl_job_lock
--- ----------------------------
-ALTER TABLE "public"."xxl_job_lock" ADD CONSTRAINT "xxl_job_lock_pkey" PRIMARY KEY ("lock_name");
-
--- ----------------------------
 -- Indexes structure for table xxl_job_log
 -- ----------------------------
-CREATE INDEX "I_handle_code" ON "public"."xxl_job_log" USING btree (
+CREATE INDEX  ON "public"."xxl_job_log" USING btree (
   "handle_code" "pg_catalog"."int4_ops" ASC NULLS LAST
 );
-CREATE INDEX "I_trigger_time" ON "public"."xxl_job_log" USING btree (
+CREATE INDEX  ON "public"."xxl_job_log" USING btree (
   "trigger_time" "pg_catalog"."timestamp_ops" ASC NULLS LAST
 );
-
--- ----------------------------
--- Primary Key structure for table xxl_job_log
--- ----------------------------
-ALTER TABLE "public"."xxl_job_log" ADD CONSTRAINT "xxl_job_log_pkey" PRIMARY KEY ("id");
-
 -- ----------------------------
 -- Indexes structure for table xxl_job_log_report
 -- ----------------------------
-CREATE INDEX "i_trigger_day" ON "public"."xxl_job_log_report" USING btree (
+CREATE INDEX  ON "public"."xxl_job_log_report" USING btree (
   "trigger_day" "pg_catalog"."timestamp_ops" ASC NULLS LAST
 );
 
 -- ----------------------------
--- Primary Key structure for table xxl_job_log_report
--- ----------------------------
-ALTER TABLE "public"."xxl_job_log_report" ADD CONSTRAINT "xxl_job_log_report_pkey" PRIMARY KEY ("id");
-
--- ----------------------------
 -- Indexes structure for table xxl_job_registry
 -- ----------------------------
-CREATE INDEX "i_g_k_v" ON "public"."xxl_job_registry" USING btree (
+CREATE INDEX ON "public"."xxl_job_registry" USING btree (
   "registry_group" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST,
   "registry_key" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST,
   "registry_value" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
 
 -- ----------------------------
--- Primary Key structure for table xxl_job_registry
--- ----------------------------
-ALTER TABLE "public"."xxl_job_registry" ADD CONSTRAINT "xxl_job_registry_pkey" PRIMARY KEY ("id");
-
--- ----------------------------
 -- Indexes structure for table xxl_job_user
 -- ----------------------------
-CREATE INDEX "i_username" ON "public"."xxl_job_user" USING btree (
+CREATE INDEX ON "public"."xxl_job_user" USING btree (
   "username" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
 
--- ----------------------------
--- Primary Key structure for table xxl_job_user
--- ----------------------------
-ALTER TABLE "public"."xxl_job_user" ADD CONSTRAINT "xxl_job_user_pkey" PRIMARY KEY ("id");
+INSERT INTO xxl_job_group(id, app_name, title, address_type, address_list, update_time) VALUES (1, 'xxl-job-executor-sample', '示例执行器', 0, NULL, '2018-11-03 22:21:31' );
+INSERT INTO xxl_job_info(id, job_group, job_desc, add_time, update_time, author, alarm_email, schedule_type, schedule_conf, misfire_strategy, executor_route_strategy, executor_handler, executor_param, executor_block_strategy, executor_timeout, executor_fail_retry_count, glue_type, glue_source, glue_remark, glue_updatetime, child_jobid) VALUES (1, 1, '测试任务1', '2018-11-03 22:21:31', '2018-11-03 22:21:31', 'XXL', '', 'CRON', '0 0 0 * * ? *', 'DO_NOTHING', 'FIRST', 'demoJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2018-11-03 22:21:31', '');
+INSERT INTO xxl_job_user(id, username, password, role, permission) VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL);
+INSERT INTO xxl_job_lock ( lock_name) VALUES ( 'schedule_lock');
